@@ -3,20 +3,20 @@
 		<thead class="thead-light">
 		<tr>
 			<th scope="col">#</th>
-			<th scope="col">First</th>
-			<th scope="col">Last</th>
+			<th scope="col">Nombre</th>
+			<th scope="col">Apellidos</th>
 			<th scope="col">Username</th>
-			<th scope="col">E-mail</th>
+			<th scope="col">Email</th>
 			<th></th>
 		</tr>
 		</thead>
 		<tbody>
-		<tr>
-			<th scope="row">1</th>
-			<td>Cristian</td>
-			<td>Ruiz</td>
-			<td>c.r.username</td>
-			<td>c.r.username@blog.com</td>
+		<tr th:each="usuario : ${usuarioList}">
+			<td th:text="${usuario.id}"></td>
+			<td th:text="${usuario.nombre}"></td>
+			<td th:text="${usuario.apellidos}"></td>
+			<td th:text="${usuario.userName}"></td>
+			<td th:text="${usuario.email}"></td>
 			<td>
 				<a href="#"><i class="fas fa-edit"></i></a> | <a href="#"><i class="fas fa-user-times"></i></a>
 			</td>
