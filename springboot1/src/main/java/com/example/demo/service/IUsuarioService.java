@@ -14,5 +14,7 @@ public interface IUsuarioService {
 	public Usuario getUsusuarioById(long id) throws Exception;
 
 	public Usuario updateUsuario(Usuario usuario) throws Exception;
+
+	public void removeUsuario(Long id) throws Exception;
 	
 }

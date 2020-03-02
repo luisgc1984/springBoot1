@@ -33,7 +33,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	
 	@Override
 	public Usuario getUsusuarioById(long id) throws Exception {
-		return usuarioRepository.findById(id).orElseThrow( () -> new Exception("El usuaio no existe") );
+		return usuarioRepository.findById(id).orElseThrow( () -> new Exception("El usuario no existe") );
 	}
 	
 	@Override
@@ -65,5 +65,11 @@ public class UsuarioServiceImpl implements IUsuarioService{
 			throw new Exception("Las password no coinciden");
 		}
 		return true;
+	}
+
+	@Override
+	public void removeUsuario(Long id) throws Exception {
+		Usuario removeUsuario = getUsusuarioById(id);
+		usuarioRepository.delete(removeUsuario);
 	}
 }
