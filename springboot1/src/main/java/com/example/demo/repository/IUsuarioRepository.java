@@ -11,4 +11,5 @@ import com.example.demo.entity.Usuario;
 public interface IUsuarioRepository extends JpaRepository<Usuario, Long>{
 
 	public Optional<Usuario> findByUserName(String username);
+	
 }

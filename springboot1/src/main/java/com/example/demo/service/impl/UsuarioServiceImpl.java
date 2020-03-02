@@ -31,6 +31,27 @@ public class UsuarioServiceImpl implements IUsuarioService{
 		
 	}
 	
+	@Override
+	public Usuario getUsusuarioById(long id) throws Exception {
+		return usuarioRepository.findById(id).orElseThrow( () -> new Exception("El usuaio no existe") );
+	}
+	
+	@Override
+	public Usuario updateUsuario(Usuario usuario) throws Exception {
+		
+		Usuario editUsuario = getUsusuarioById(usuario.getId());
+		
+		editUsuario.setNombre(usuario.getNombre());
+		editUsuario.setApellidos(usuario.getApellidos());
+		editUsuario.setEmail(usuario.getEmail());
+		editUsuario.setUserName(usuario.getUserName());
+		editUsuario.setRoles(usuario.getRoles());
+		
+		Usuario save = usuarioRepository.save(editUsuario);
+		
+		return save;
+	}
+	
 	private boolean checkUsernameAvailable(Usuario usuario) throws Exception {
 		Optional<Usuario> findByUserName = usuarioRepository.findByUserName(usuario.getUserName());
 		if( findByUserName.isPresent() ) {
