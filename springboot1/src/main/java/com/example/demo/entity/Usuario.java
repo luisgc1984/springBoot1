@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 
 @Entity
 public class Usuario implements Serializable{
@@ -22,17 +25,30 @@ public class Usuario implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	
 	@Column(name="NOMBRE")
+	@NotBlank(message = "Debes especificar el nombre")
 	private String nombre;
+	
 	@Column(name="APELLIDOS")
+	@NotBlank
 	private String apellidos;
+	
 	@Column(name="EMAIL")
+	@NotBlank
 	private String email;
+	
 	@Column(name="USERNAME")
+	@NotBlank
+	@Size(min=4, max=10, message="Error en el tamano. Debe ser entre 4 y 10.")	
 	private String userName;
+	
 	@Column(name="PASSWORD")
+	@NotBlank
 	private String password;
+	
 	@Transient
+	@NotBlank
 	private String confirmPassword;
 	
 	@ManyToMany(fetch = FetchType.LAZY)

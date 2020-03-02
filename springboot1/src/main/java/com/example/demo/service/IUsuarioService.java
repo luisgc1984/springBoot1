@@ -8,4 +8,6 @@ import com.example.demo.entity.Usuario;
 public interface IUsuarioService {
 
 	public List<Usuario> getAllUsuarios();
+
+	public Usuario createUsuario(Usuario usuario) throws Exception;
 }
