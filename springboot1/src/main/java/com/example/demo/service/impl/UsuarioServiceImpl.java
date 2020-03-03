@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.ChangePassword;
 import com.example.demo.entity.Usuario;
 import com.example.demo.repository.IUsuarioRepository;
 import com.example.demo.service.IUsuarioService;
@@ -52,6 +53,30 @@ public class UsuarioServiceImpl implements IUsuarioService{
 		return save;
 	}
 	
+	@Override
+	public void removeUsuario(Long id) throws Exception {
+		Usuario removeUsuario = getUsusuarioById(id);
+		usuarioRepository.delete(removeUsuario);
+	}
+	
+	@Override
+	public Usuario changePassword(ChangePassword change) throws Exception {
+		Usuario usuario = getUsusuarioById(change.getId());
+		
+		if( !change.getCurrentPassword().equalsIgnoreCase(usuario.getPassword()) ) {
+			throw new Exception("La password actual no es correcta");
+		}
+		if( change.getNewPassword().equalsIgnoreCase(usuario.getPassword()) ) {
+			throw new Exception("La nueva password y la existente son iguales");
+		}
+		if( !change.getNewPassword().equalsIgnoreCase(change.getConfirmNewPassword()) ) {
+			throw new Exception("La nueva password y la confirmacion no coinciden");
+		}
+		
+		usuario.setPassword(change.getNewPassword());
+		return usuarioRepository.save(usuario);
+	}
+	
 	private boolean checkUsernameAvailable(Usuario usuario) throws Exception {
 		Optional<Usuario> findByUserName = usuarioRepository.findByUserName(usuario.getUserName());
 		if( findByUserName.isPresent() ) {
@@ -65,11 +90,5 @@ public class UsuarioServiceImpl implements IUsuarioService{
 			throw new Exception("Las password no coinciden");
 		}
 		return true;
-	}
-
-	@Override
-	public void removeUsuario(Long id) throws Exception {
-		Usuario removeUsuario = getUsusuarioById(id);
-		usuarioRepository.delete(removeUsuario);
 	}
 }
