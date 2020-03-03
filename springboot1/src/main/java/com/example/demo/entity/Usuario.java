@@ -40,7 +40,7 @@ public class Usuario implements Serializable{
 	
 	@Column(name="USERNAME")
 	@NotBlank
-	@Size(min=4, max=10, message="Error en el tamano. Debe ser entre 4 y 10.")	
+	@Size(min=4, max=15, message="Error en el tamano. Debe ser entre 4 y 15.")	
 	private String userName;
 	
 	@Column(name="PASSWORD")

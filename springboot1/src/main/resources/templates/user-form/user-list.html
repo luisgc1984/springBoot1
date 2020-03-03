@@ -20,10 +20,14 @@
 			<td th:text="${usuario.apellidos}"></td>
 			<td th:text="${usuario.userName}"></td>
 			<td th:text="${usuario.email}"></td>
-			<td>
-				<a th:href="@{'/editUser/' + ${usuario.id}}"><i class="fas fa-edit"></i></a> | 
+			<td class="text-center">
+				<span th:if=" ${#authorization.expression('hasRole(''ROLE_ADMIN'')')} or (${#authorization.expression('hasRole(''ROLE_USER'')')} and ${#httpServletRequest.remoteUser==usuario.userName})">
+					<a th:href="@{'/editUser/' + ${usuario.id}}"><i class="fas fa-edit"></i></a>
 <!-- 				<a href="#" th:onClick="'javascript:confirmarDelete(\''+ ${usuario.id} +'\');'"><i class="fas fa-user-times"></i></a> -->
-				<a href="#" class="iconDeleteUser"><i class="fas fa-user-times"></i></a>
+				</span>
+				<span sec:authorize="hasRole('ROLE_ADMIN')">
+					| <a href="#" class="iconDeleteUser"><i class="fas fa-user-times"></i></a>
+				</span>
 			</td>
 		</tr>
 		</tbody>

@@ -30,7 +30,7 @@ public class UserController {
 	@Autowired
 	private IRoleRepository roleRepository;
 	
-	@GetMapping("/")
+	@GetMapping({"/", "/login"})
 	public String index() {
 		return "index";
 	}
@@ -84,6 +84,7 @@ public class UserController {
 		return "user-form/user-view";
 	}
 	
+	//@PreAuthorize("hasRole('ROLE_ADMIN')") si no tiene permisos, devulve There was an unexpected error (type=Forbidden, status=403).
 	@PostMapping("/editUser")
 	public String editUsuario(@Valid @ModelAttribute("userForm")Usuario usuario, BindingResult result, ModelMap model) {
 		
