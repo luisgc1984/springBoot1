@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.ChangePassword;
 import com.example.demo.entity.Usuario;
+import com.example.demo.exceptions.UserNotFound;
 import com.example.demo.repository.IUsuarioRepository;
 import com.example.demo.service.IUsuarioService;
 import com.example.demo.util.Permisos;
@@ -41,8 +42,8 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	}
 	
 	@Override
-	public Usuario getUsusuarioById(long id) throws Exception {
-		return usuarioRepository.findById(id).orElseThrow( () -> new Exception("El usuario no existe") );
+	public Usuario getUsusuarioById(long id) throws UserNotFound {
+		return usuarioRepository.findById(id).orElseThrow( () -> new UserNotFound("El usuario no existe") );
 	}
 	
 	@Override
@@ -63,7 +64,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	@Override
-	public void removeUsuario(Long id) throws Exception {
+	public void removeUsuario(Long id) throws UserNotFound  {
 		Usuario removeUsuario = getUsusuarioById(id);
 		usuarioRepository.delete(removeUsuario);
 	}

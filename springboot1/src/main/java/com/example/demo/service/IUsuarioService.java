@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.demo.dto.ChangePassword;
 import com.example.demo.entity.Usuario;
+import com.example.demo.exceptions.UserNotFound;
 
 
 public interface IUsuarioService {
@@ -12,7 +13,7 @@ public interface IUsuarioService {
 
 	public Usuario createUsuario(Usuario usuario) throws Exception;
 
-	public Usuario getUsusuarioById(long id) throws Exception;
+	public Usuario getUsusuarioById(long id) throws UserNotFound;
 
 	public Usuario updateUsuario(Usuario usuario) throws Exception;
 

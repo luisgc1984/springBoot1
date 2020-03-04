@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.demo.dto.ChangePassword;
 import com.example.demo.entity.Usuario;
+import com.example.demo.exceptions.UserNotFound;
 import com.example.demo.repository.IRoleRepository;
 import com.example.demo.service.IUsuarioService;
 
@@ -84,7 +86,7 @@ public class UserController {
 		return "user-form/user-view";
 	}
 	
-	//@PreAuthorize("hasRole('ROLE_ADMIN')") si no tiene permisos, devulve There was an unexpected error (type=Forbidden, status=403).
+	@PreAuthorize("hasRole('ROLE_ADMIN')") //si no tiene permisos, devulve There was an unexpected error (type=Forbidden, status=403).
 	@PostMapping("/editUser")
 	public String editUsuario(@Valid @ModelAttribute("userForm")Usuario usuario, BindingResult result, ModelMap model) {
 		
@@ -125,7 +127,7 @@ public class UserController {
 		
 		try {
 			usuarioService.removeUsuario(id);
-		} catch (Exception e) {
+		} catch (UserNotFound e) {
 			model.addAttribute("listErrorMessage", e.getMessage());
 		}
 		
