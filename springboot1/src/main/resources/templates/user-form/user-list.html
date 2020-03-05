@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div class="table-responsive" style="overflow: hidden; margin-bottom:10px">
 	
 	<div class="alert alert-danger" th:if="${listErrorMessage}" th:text="${listErrorMessage}">Error message</div>
 	
@@ -6,11 +6,11 @@
 		<thead class="thead-light">
 		<tr>
 			<th scope="col">#</th>
-			<th scope="col">Nombre</th>
-			<th scope="col">Apellidos</th>
+			<th scope="col">First Name</th>
+			<th scope="col">Last Name</th>
 			<th scope="col">Username</th>
 			<th scope="col">Email</th>
-			<th>Acciones</th>
+			<th>Actions</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -21,7 +21,7 @@
 			<td th:text="${usuario.userName}"></td>
 			<td th:text="${usuario.email}"></td>
 			<td class="text-center">
-				<span th:if=" ${#authorization.expression('hasRole(''ROLE_ADMIN'')')} or (${#authorization.expression('hasRole(''ROLE_USER'')')} and ${#httpServletRequest.remoteUser==usuario.userName})">
+				<span th:if=" ${#authorization.expression('hasRole(''ROLE_ADMIN'')')} or ${#httpServletRequest.remoteUser==usuario.userName} ">
 					<a th:href="@{'/editUser/' + ${usuario.id}}"><i class="fas fa-edit"></i></a>
 <!-- 				<a href="#" th:onClick="'javascript:confirmarDelete(\''+ ${usuario.id} +'\');'"><i class="fas fa-user-times"></i></a> -->
 				</span>
@@ -44,7 +44,7 @@
     });
 
 	$('#userList').on( 'click', '.iconDeleteUser', function () {
-		var id = table.row(this.closest('tr')).data()[0];
+		var id = table.row($(this).closest('tr')).data()[0];
 		confirmarDelete(id);
 	});
 	

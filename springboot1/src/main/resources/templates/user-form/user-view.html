@@ -45,7 +45,7 @@
 </head>
 <body>
 
-	<div class="container">
+	<div class="container mb-5">
 		<div class="mx-auto col-sm-9 main-section" id="myTab" role="tablist">
 			<ul class="nav nav-tabs justify-content-end">
 				<li class="nav-item">
@@ -55,9 +55,9 @@
 					<a class="nav-link" th:classappend="${tabForm}" id="form-tab" data-toggle="tab" href="#form" role="tab" aria-controls="form" aria-selected="true">Form</a>				   	
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" th:href="@{/logout}">
-						<span sec:authentication="name"></span> - 
-						<span> logout </span>
+					<a class="nav-link d-flex" th:href="@{/logout}">
+						<span class="mr-1" sec:authentication="name"></span>
+						<span class="mr-1">- logout </span>
 						<span class="float-right"><i class="fas fa-sign-out-alt"></i></span>
 					</a>
 				</li>
@@ -66,7 +66,7 @@
 				<div class="tab-pane fade show" th:classappend="${tabList}" id="list" role="tabpanel" aria-labelledby="list-tab">
 					<div class="card">
 						<div class="card-header">
-							<h4>Roster</h4>
+							<h4>User List</h4>
 						</div>
 						<div class="card-body">
 							<div th:include="user-form/user-list.html" th:remove="tag"></div>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+	<!--JQUERY-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <!-- FRAMEWORK BOOTSTRAP -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+	<style type="text/css">
+		body{
+			padding-top:5%;
+		}
+		a{
+			display:flex;
+			text-decoration:none;
+			color:black;
+		}
+		a:hover {
+ 		    color: #030303; 
+ 		    text-decoration: none; 
+		    opacity: 0.4;
+		}
+		.backIcon{
+			height:35px;
+			width:35px;
+		}
+		#lupa{
+			margin-left: 10px;
+			height: 35px;
+			cursor: pointer;
+		}
+	</style>
+	
+</head>
+<body>
+
+	<div class="container text-center">
+		<div class="mx-auto col-10 card p-0">
+			<div class="card-header">
+				<h4>Remember Password</h4>
+			</div>
+			<div class="card-body">
+				<img src="static/img/success.png" th:src="@{/img/success.png}" style="width:15%;"/>
+				<div class="mt-4 d-flex justify-content-center">
+					<span>Password:</span>
+					<span class="ml-2 mt-1 ocultar">**********</span>
+					<img class="ocultar" id="lupa" src="static/img/lupa.png" th:src="@{/img/lupa.png}"/>
+					<span id="showPass" class="ml-2 d-none" th:text="${passwordRemembered}"></span>
+				</div>
+			</div>
+			<div class="card-footer d-flex">
+				<a th:href="@{'/'}" href="/">
+					<img class="backIcon" src="static/img/back.png" th:src="@{/img/back.png}"/> 
+					<h6 style="margin-top: 5px;">Back to Login</h6>
+				</a> 
+			</div>
+		</div>	    
+	</div>
+
+</body>
+
+<script type="text/javascript">
+	$('#lupa').on('click', function(){
+		$('#showPass').removeClass('d-none');
+		$('.ocultar').addClass('d-none');
+		
+		setTimeout(function(){ 
+			$('#showPass').addClass('d-none');
+			$('.ocultar').removeClass('d-none'); 
+		}, 2500);
+	});
+</script>
+</html>

@@ -1,20 +1,20 @@
 <form class="form" role="form" autocomplete="off" th:object="${userForm}" th:action="${registration} ? @{/registration} : (${editMode} ? @{/editUser} : @{/userForm})" method="post">
 	<input th:if="${editMode}" type="hidden" th:field="${userForm.id}"></input>
 	<input th:if="${editMode}" type="hidden" name="password" value="xxx"></input>
-	<input th:if="${registration}" type="hidden" name="roles" value="2"></input>
+<!-- 	<input th:if="${registration}" type="hidden" name="roles" value="2"></input> -->
 	
 	<div class="alert alert-danger" th:if="${formErrorMessage}" th:text="${formErrorMessage}">Error message</div>
 	<div th:if="${editMode}" class="alert alert-success d-none" id="formSuccess">Success message</div>
 	
 	<div class="form-group row">
-		<label class="col-lg-3 col-form-label form-control-label">Nombre</label><!-- th:text="#{form.usuario.nombre}" -->
+		<label class="col-lg-3 col-form-label form-control-label">First Name</label><!-- th:text="#{form.usuario.nombre}" -->
 		<div class="col-lg-9">
 			<input class="form-control" type="text" th:field="${userForm.nombre}" th:disabled="${disabledFields}"></input>
 			<div class="alert-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
 		</div>
 	</div>
 	<div class="form-group row">
-		<label class="col-lg-3 col-form-label form-control-label">Apellidos</label>
+		<label class="col-lg-3 col-form-label form-control-label">Last Name</label>
 		<div class="col-lg-9">
 			<input class="form-control" type="text" th:field="${userForm.apellidos}"></input>
 			<div class="alert-danger" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}">Name Error</div>
@@ -51,7 +51,7 @@
 		</div>
 	</div>
 	<div class="form-group row" th:if="${editMode == null or editMode == false}">
-		<label class="col-lg-3 col-form-label form-control-label">Confirm</label>
+		<label class="col-lg-3 col-form-label form-control-label">Confirm Password</label>
 		<div class="col-lg-9">
 			<input class="form-control" type="password" th:field="${userForm.confirmPassword}"></input>
 			<div class="alert-danger" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">Name Error</div>
@@ -59,8 +59,8 @@
 	</div>
 	<div class="form-group row">
 		<div class="col-lg-12 text-center">
-			<a class="btn btn-secondary" th:href="@{'/userForm/cancel'}">Volver</a>
-			<input type="submit" class="btn btn-primary" th:value="${registration} ? 'Registrar' : (${editMode} ? 'Editar' : 'Crear')"/>
+			<a class="btn btn-secondary" th:href="@{'/userForm/cancel'}">Back</a>
+			<input type="submit" class="btn btn-primary" th:value="${registration} ? 'Signup' : (${editMode} ? 'Edit' : 'Create')"/>
 			<button th:if="${editMode}" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#changePasswordModal">Change Password</button>
 		</div>
 	</div>

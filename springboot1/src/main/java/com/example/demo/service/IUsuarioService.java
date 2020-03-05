@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 
 import com.example.demo.dto.ChangePassword;
+import com.example.demo.dto.RememberPassword;
 import com.example.demo.entity.Usuario;
 import com.example.demo.exceptions.UserNotFound;
 
@@ -20,5 +21,7 @@ public interface IUsuarioService {
 	public void removeUsuario(Long id) throws Exception;
 
 	public Usuario changePassword(ChangePassword change) throws Exception;
+	
+	public Usuario findUsuarioByUsernameAndEmail(RememberPassword rememberPassword) throws UserNotFound;
 	
 }

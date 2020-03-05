@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.ChangePassword;
+import com.example.demo.dto.RememberPassword;
 import com.example.demo.entity.Usuario;
 import com.example.demo.exceptions.UserNotFound;
 import com.example.demo.repository.IUsuarioRepository;
@@ -55,14 +56,16 @@ public class UsuarioServiceImpl implements IUsuarioService{
 		editUsuario.setApellidos(usuario.getApellidos());
 		editUsuario.setEmail(usuario.getEmail());
 		editUsuario.setUserName(usuario.getUserName());
-		editUsuario.setRoles(usuario.getRoles());
+		if( Permisos.isAdmin() ) {
+			editUsuario.setRoles(usuario.getRoles());
+		}
 		
 		Usuario save = usuarioRepository.save(editUsuario);
 		
 		return save;
 	}
 	
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")//@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 	@Override
 	public void removeUsuario(Long id) throws UserNotFound  {
 		Usuario removeUsuario = getUsusuarioById(id);
@@ -100,5 +103,10 @@ public class UsuarioServiceImpl implements IUsuarioService{
 			throw new Exception("Las password no coinciden");
 		}
 		return true;
+	}
+
+	@Override
+	public Usuario findUsuarioByUsernameAndEmail(RememberPassword rememberPassword) throws UserNotFound {
+		return usuarioRepository.findByUserNameAndEmail(rememberPassword.getUserName(), rememberPassword.getEmail()).orElseThrow(() -> new UserNotFound("No existe ningún usuario con ese Email y Username"));
 	}
 }

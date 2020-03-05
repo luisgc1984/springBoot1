@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.demo.dto.ChangePassword;
+import com.example.demo.dto.RememberPassword;
 import com.example.demo.entity.Usuario;
 import com.example.demo.exceptions.UserNotFound;
 import com.example.demo.repository.IRoleRepository;
@@ -63,6 +64,34 @@ public class UserController {
 		}
 		
 		return "registration-success";
+	}
+	
+	@GetMapping("/rememberPassword")
+	public String rememberPassword(Model model) {
+		model.addAttribute("rememberPasswordForm", new RememberPassword());
+		return "rememberPassword-form";
+	}
+	
+	@PostMapping("/rememberPassword")
+	public String showPassword(@Valid @ModelAttribute("rememberPasswordForm")RememberPassword rememberPassword, BindingResult result, ModelMap model) {
+		String passwordRemembered = null;
+		
+		if( result.hasErrors() ) {
+			model.addAttribute("userForm", rememberPassword);
+			return "rememberPassword-form";
+		}else {
+			try {
+				passwordRemembered = usuarioService.findUsuarioByUsernameAndEmail(rememberPassword).getPassword();
+			} catch (UserNotFound e) {
+				model.addAttribute("formRememberPasswordErrorMessage", e.getMessage());
+				model.addAttribute("userForm", rememberPassword);
+				return "rememberPassword-form";
+			}
+			
+		}
+		model.addAttribute("passwordRemembered", passwordRemembered);
+		return "remember-passord-success";
+		
 	}
 	
 	@GetMapping("/userForm")
