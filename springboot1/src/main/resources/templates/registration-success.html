@@ -6,26 +6,28 @@
 	<!--JQUERY-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     
-    <!-- FRAMEWORK BOOTSTRAP para el estilo de la pagina-->
+    <!-- FRAMEWORK BOOTSTRAP -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    
-    <!-- Los iconos tipo Solid de Fontawesome-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
-    <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
 
-    <!-- Nuestro css-->
-    <link rel="stylesheet" type="text/css" href="static/css/index.css" th:href="@{/css/index.css}">
-	
 	<style type="text/css">
 		body{
 			padding-top:5%;
 		}
-	
-		img{
-			width:100%;
+		a{
+			display:flex;
+			text-decoration:none;
+			color:black;
 		}
-		
+		a:hover {
+ 		    color: #030303; 
+ 		    text-decoration: none; 
+		    opacity: 0.4;
+		}
+		.backIcon{
+			height:35px;
+			width:35px;
+		}
 	</style>
 	
 </head>
@@ -34,11 +36,16 @@
 	<div class="container text-center">
 		<div class="mx-auto col-10 card p-0">
 			<div class="card-header">
-				<a href="/userForm" ><img src="static/img/back.png" th:src="@{/img/back.png}"/ style="float:left; height:35px; width:35px;"></a>
-				<h4>404 Page Not Found</h4>
+				<h4>Registration Success</h4>
 			</div>
 			<div class="card-body">
-				<img src="static/img/404.png" th:src="@{/img/404.png}" style="width:50%;"/>
+				<img src="static/img/success.png" th:src="@{/img/success.png}" style="width:25%;"/>
+			</div>
+			<div class="card-footer">
+				<a th:href="@{'/'}" href="/">
+					<img class="backIcon" src="static/img/back.png" th:src="@{/img/back.png}"/> 
+					<h6 style="margin-top: 5px;">Back to Login</h6>
+				</a> 
 			</div>
 		</div>	    
 	</div>

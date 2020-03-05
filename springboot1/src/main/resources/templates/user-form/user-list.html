@@ -43,8 +43,8 @@
         ]
     });
 
-	$('#userList').on( 'click', 'tr', function () {
-		var id = table.row(this).data()[0];
+	$('#userList').on( 'click', '.iconDeleteUser', function () {
+		var id = table.row(this.closest('tr')).data()[0];
 		confirmarDelete(id);
 	});
 	

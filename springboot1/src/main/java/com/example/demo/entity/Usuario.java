@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -36,6 +37,7 @@ public class Usuario implements Serializable{
 	
 	@Column(name="EMAIL")
 	@NotBlank
+	@Email
 	private String email;
 	
 	@Column(name="USERNAME")

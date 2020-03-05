@@ -37,6 +37,34 @@ public class UserController {
 		return "index";
 	}
 	
+	@GetMapping("/registration")
+	public String registration(Model model) {
+		model.addAttribute("userForm", new Usuario());
+		model.addAttribute("registration", true);
+		return "registration-form";
+	}
+	
+	@PostMapping("/registration")
+	public String createRegistration(@Valid @ModelAttribute("userForm")Usuario usuario, BindingResult result, ModelMap model) {
+		
+		if( result.hasErrors() ) {
+			model.addAttribute("userForm", usuario);
+			model.addAttribute("registration", true);
+			return "registration-form";
+		}else {
+			try {
+				usuarioService.createUsuario(usuario);
+			} catch (Exception e) {
+				model.addAttribute("formErrorMessage", e.getMessage());
+				model.addAttribute("userForm", usuario);
+				model.addAttribute("registration", true);
+				return "registration-form";
+			}
+		}
+		
+		return "registration-success";
+	}
+	
 	@GetMapping("/userForm")
 	public String getUserFor(Model model) {
 		model.addAttribute("userForm", new Usuario());
@@ -47,6 +75,7 @@ public class UserController {
 		return "user-form/user-view";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')") //si no tiene permisos, devulve There was an unexpected error (type=Forbidden, status=403).
 	@PostMapping("/userForm")
 	public String addUsuario(@Valid @ModelAttribute("userForm")Usuario usuario, BindingResult result, ModelMap model) {
 		
@@ -86,7 +115,6 @@ public class UserController {
 		return "user-form/user-view";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')") //si no tiene permisos, devulve There was an unexpected error (type=Forbidden, status=403).
 	@PostMapping("/editUser")
 	public String editUsuario(@Valid @ModelAttribute("userForm")Usuario usuario, BindingResult result, ModelMap model) {
 		
@@ -95,11 +123,12 @@ public class UserController {
 			model.addAttribute("tabForm", "active");
 			model.addAttribute("editMode", true);
 			model.addAttribute("passwordForm", new ChangePassword(usuario.getId()));
+			model.addAttribute("roles", roleRepository.findAll());
+			model.addAttribute("usuarioList", usuarioService.getAllUsuarios());
+			return "user-form/user-view";
 		}else {
 			try {
 				usuarioService.updateUsuario(usuario);
-				model.addAttribute("userForm", new Usuario());
-				model.addAttribute("tabList", "active");
 			} catch (Exception e) {
 				model.addAttribute("formErrorMessage", e.getMessage());
 				model.addAttribute("userForm", usuario);
@@ -108,13 +137,11 @@ public class UserController {
 				model.addAttribute("usuarioList", usuarioService.getAllUsuarios());
 				model.addAttribute("editMode", true);
 				model.addAttribute("passwordForm", new ChangePassword(usuario.getId()));
+				return "user-form/user-view";
 			}
 		}
 		
-		model.addAttribute("roles", roleRepository.findAll());
-		model.addAttribute("usuarioList", usuarioService.getAllUsuarios());
-		
-		return "user-form/user-view";
+		return "redirect:/userForm";
 	}
 	
 	@GetMapping("/userForm/cancel")
@@ -129,9 +156,10 @@ public class UserController {
 			usuarioService.removeUsuario(id);
 		} catch (UserNotFound e) {
 			model.addAttribute("listErrorMessage", e.getMessage());
+			return getUserFor(model);
 		}
 		
-		return getUserFor(model);
+		return "redirect:/userForm";
 	}
 	
 	@PostMapping(value="/editUser/changePassword")
